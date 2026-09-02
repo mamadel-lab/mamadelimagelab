@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Zap, Crop, Stamp, X, ChevronRight } from 'lucide-react';
+import { Zap, Crop, Stamp, X } from 'lucide-react';
 import type { ProcessingConfig } from '@/types/image';
 import CompressionPanel from './CompressionPanel';
 import AspectRatioPanel from './AspectRatioPanel';
@@ -14,9 +14,9 @@ interface SettingsSidebarProps {
 }
 
 const TABS: { id: 'compression' | 'aspect' | 'watermark'; label: string; sublabel: string; icon: React.ReactNode; step: number }[] = [
-  { id: 'compression', label: 'Resize',       sublabel: 'Format & size',   icon: <Zap size={18} />,   step: 1 },
-  { id: 'aspect',      label: 'Aspect Ratio', sublabel: 'Crop & ratio',    icon: <Crop size={18} />,  step: 2 },
-  { id: 'watermark',   label: 'Watermark',    sublabel: 'Brand & protect', icon: <Stamp size={18} />, step: 3 },
+  { id: 'compression', label: 'Step 1', sublabel: 'Format & size',   icon: <Zap size={18} />,   step: 1 },
+  { id: 'aspect',      label: 'Step 2', sublabel: 'Crop & ratio',    icon: <Crop size={18} />,  step: 2 },
+  { id: 'watermark',   label: 'Step 3', sublabel: 'Brand & protect', icon: <Stamp size={18} />, step: 3 },
 ];
 
 export default function SettingsSidebar({ config, onChange, activeTab, onTabChange }: SettingsSidebarProps) {
@@ -37,64 +37,6 @@ export default function SettingsSidebar({ config, onChange, activeTab, onTabChan
 
   return (
     <div className="card-surface flex flex-col">
-      {/* Step flow header */}
-      <div
-        className="px-3 pt-3 pb-2"
-        style={{ borderBottom: '1px solid var(--border)' }}
-      >
-        <p className="text-[10px] font-bold tracking-widest mb-2" style={{ color: 'var(--muted-foreground)', letterSpacing: '0.12em' }}>
-          STEP-BY-STEP WORKFLOW
-        </p>
-        <div className="flex items-center gap-1">
-          {TABS.map((tab, idx) => {
-            const isActive = activeTab === tab.id;
-            const isDone = TABS.findIndex(t => t.id === activeTab) > idx;
-            return (
-              <React.Fragment key={tab.id}>
-                <button
-                  type="button"
-                  onClick={() => onTabChange(tab.id)}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all duration-150 flex-1 justify-center"
-                  style={{
-                    background: isActive
-                      ? 'rgba(13,148,136,0.18)'
-                      : isDone
-                      ? 'rgba(13,148,136,0.07)'
-                      : 'transparent',
-                    border: isActive
-                      ? '1px solid var(--primary)'
-                      : '1px solid transparent',
-                  }}
-                >
-                  <span
-                    className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0"
-                    style={{
-                      background: isActive
-                        ? 'var(--primary)'
-                        : isDone
-                        ? 'rgba(13,148,136,0.4)'
-                        : 'var(--border)',
-                      color: isActive || isDone ? 'white' : 'var(--muted-foreground)',
-                    }}
-                  >
-                    {tab.step}
-                  </span>
-                  <span
-                    className="text-[10px] font-semibold hidden sm:block"
-                    style={{ color: isActive ? 'var(--primary)' : 'var(--muted-foreground)' }}
-                  >
-                    {tab.label}
-                  </span>
-                </button>
-                {idx < TABS.length - 1 && (
-                  <ChevronRight size={10} style={{ color: 'var(--border)', flexShrink: 0 }} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Tooltip hint */}
       {showHint && (
         <div
@@ -150,17 +92,6 @@ export default function SettingsSidebar({ config, onChange, activeTab, onTabChan
                 boxShadow: isActive ? '0 2px 12px rgba(13,148,136,0.2)' : 'none',
               }}
             >
-              {/* Step number badge */}
-              <span
-                className="absolute top-1.5 left-2 text-[9px] font-bold leading-none w-4 h-4 rounded-full flex items-center justify-center"
-                style={{
-                  background: isActive ? 'var(--primary)' : 'var(--border)',
-                  color: isActive ? 'white' : 'var(--muted-foreground)',
-                }}
-              >
-                {tab.step}
-              </span>
-
               {/* Icon */}
               <span style={{ color: isActive ? 'var(--primary)' : 'var(--muted-foreground)' }}>
                 {tab.icon}

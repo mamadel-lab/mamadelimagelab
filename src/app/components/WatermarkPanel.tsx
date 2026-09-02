@@ -49,20 +49,31 @@ export default function WatermarkPanel({ config, onChange }: WatermarkPanelProps
             Overlay text or logo on all images
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => patchWm({ enabled: !wm.enabled })}
-          role="switch"
-          aria-checked={wm.enabled}
-          aria-label="Toggle watermark"
-          className="shrink-0 relative w-10 h-6 rounded-full transition-all duration-200"
-          style={{ background: wm.enabled ? 'var(--primary)' : 'var(--border)' }}
-        >
-          <span
-            className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-all duration-200"
-            style={{ left: wm.enabled ? '18px' : '2px', boxShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
-          />
-        </button>
+        <div className="relative shrink-0">
+          {!wm.enabled && (
+            <span
+              className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full z-10"
+              style={{ background: 'var(--accent)', animation: 'ping-dot 1.5s ease-in-out infinite' }}
+            />
+          )}
+          <button
+            type="button"
+            onClick={() => patchWm({ enabled: !wm.enabled })}
+            role="switch"
+            aria-checked={wm.enabled}
+            aria-label="Toggle watermark"
+            className="relative w-10 h-6 rounded-full transition-all duration-200"
+            style={{
+              background: wm.enabled ? 'var(--primary)' : 'var(--border)',
+              boxShadow: !wm.enabled ? '0 0 0 2px rgba(6,182,212,0.4)' : 'none',
+            }}
+          >
+            <span
+              className="absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-all duration-200"
+              style={{ left: wm.enabled ? '18px' : '2px', boxShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
+            />
+          </button>
+        </div>
       </div>
 
       {wm.enabled && (
