@@ -7,162 +7,107 @@ interface AspectRatioPanelProps {
   onChange: (patch: Partial<ProcessingConfig>) => void;
 }
 
+// SVG icons for each ratio
+const icons: Record<string, React.ReactNode> = {
+  '1:1': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="6" y="6" width="20" height="20" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '3:4': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="8" y="3" width="16" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '4:5': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="7" y="4" width="18" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '9:16': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="11" y="3" width="10" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '16:9': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="9" width="26" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '4:3': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="7" width="26" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '3:2': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="2" y="8" width="28" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '2:3': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="9" y="2" width="14" height="28" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '5:4': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="3" y="8" width="26" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  '21:9': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="1" y="11" width="30" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  'auto': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 2" />
+      <path d="M10 16h12M16 10v12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  'custom': (
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 2" />
+      <path d="M12 16h8M16 12v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+};
+
 const PRESET_GROUPS = [
   {
-    group: 'Basic',
+    group: 'POPULAR',
     presets: [
-      {
-        id: 'original',
-        label: 'Original',
-        description: 'Keep source dimensions',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M10 16h12M16 10v12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-        platform: 'No resize',
-        ratio: '—',
-      },
-      {
-        id: '1:1',
-        label: 'Square',
-        description: 'Instagram Feed, Twitter',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="6" y="6" width="20" height="20" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Instagram · Twitter',
-        ratio: '1:1',
-      },
+      { id: '1:1',  label: 'Square',           sub: '1:1 · universal format' },
+      { id: '3:4',  label: 'Product Card',      sub: '3:4 · WB / marketplaces' },
+      { id: '4:5',  label: 'Vertical Card',     sub: '4:5 · goods / social' },
+      { id: '9:16', label: 'Stories / Reels',   sub: '9:16 · mobile format' },
+      { id: '16:9', label: 'Wide',              sub: '16:9 · banners / covers' },
     ],
   },
   {
-    group: 'Social Media',
+    group: 'STANDARD',
     presets: [
-      {
-        id: '9:16',
-        label: 'Stories',
-        description: 'Instagram/TikTok Stories',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="11" y="3" width="10" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Instagram · TikTok · Reels',
-        ratio: '9:16',
-      },
-      {
-        id: '4:5',
-        label: 'Portrait',
-        description: 'Instagram Portrait Post',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="7" y="4" width="18" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Instagram Feed',
-        ratio: '4:5',
-      },
-      {
-        id: '16:9',
-        label: 'Landscape',
-        description: 'YouTube, Twitter Banner',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="3" y="9" width="26" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'YouTube · Twitter · LinkedIn',
-        ratio: '16:9',
-      },
-      {
-        id: '4:3',
-        label: 'Classic',
-        description: 'Facebook post, presentations',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="3" y="7" width="26" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Facebook · Slides',
-        ratio: '4:3',
-      },
-      {
-        id: '3:4',
-        label: 'Tall Classic',
-        description: 'Pinterest, mobile',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="8" y="3" width="16" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Pinterest · Mobile',
-        ratio: '3:4',
-      },
+      { id: '4:3',  label: 'Classic',           sub: '4:3' },
+      { id: '3:2',  label: 'Photo',             sub: '3:2' },
+      { id: '2:3',  label: 'Portrait',          sub: '2:3' },
+      { id: '5:4',  label: 'Classic',           sub: '5:4' },
     ],
   },
   {
-    group: 'Photography',
+    group: 'WIDE',
     presets: [
-      {
-        id: '3:2',
-        label: 'Photo Wide',
-        description: 'Standard DSLR landscape',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="2" y="8" width="28" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'DSLR · Flickr',
-        ratio: '3:2',
-      },
-      {
-        id: '2:3',
-        label: 'Photo Portrait',
-        description: 'Standard DSLR portrait',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="9" y="2" width="14" height="28" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'DSLR · Print',
-        ratio: '2:3',
-      },
-      {
-        id: '21:9',
-        label: 'Ultrawide',
-        description: 'Cinematic / banner',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="1" y="11" width="30" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        ),
-        platform: 'Cinema · Banner',
-        ratio: '21:9',
-      },
+      { id: '21:9', label: 'Cinema',            sub: '21:9' },
     ],
   },
   {
-    group: 'Custom',
+    group: 'AUTO',
     presets: [
-      {
-        id: 'custom',
-        label: 'Custom Size',
-        description: 'Set exact pixel dimensions',
-        icon: (
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-            <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 2" />
-            <path d="M12 16h8M16 12v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-        platform: 'Any resolution',
-        ratio: 'W×H',
-      },
+      { id: 'auto', label: 'Auto',              sub: 'Auto · model decides' },
     ],
   },
 ] as const;
+
+type PresetId = '1:1' | '3:4' | '4:5' | '9:16' | '16:9' | '4:3' | '3:2' | '2:3' | '5:4' | '21:9' | 'auto' | 'custom' | 'original';
 
 export default function AspectRatioPanel({ config, onChange }: AspectRatioPanelProps) {
   const [customW, setCustomW] = useState(String(config.customDimensions?.width ?? 1080));
@@ -190,172 +135,169 @@ export default function AspectRatioPanel({ config, onChange }: AspectRatioPanelP
     }
   }, [config.customDimensions, onChange]);
 
-  const showBlurOption = config.aspectRatio !== 'original';
-
-  const QUICK_PRESETS = [
-    { id: 'original', label: 'Original', ratio: '—' },
-    { id: '1:1', label: 'Square', ratio: '1:1' },
-    { id: '9:16', label: 'Stories', ratio: '9:16' },
-    { id: '4:5', label: 'Portrait', ratio: '4:5' },
-    { id: '16:9', label: 'Wide', ratio: '16:9' },
-  ] as const;
+  const showBlurOption = config.aspectRatio !== 'original' && config.aspectRatio !== 'auto';
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Quick Presets */}
-      <div>
-        <p className="panel-header mb-2">Quick Presets</p>
-        <div className="grid grid-cols-5 gap-1.5">
-          {QUICK_PRESETS.map((qp) => {
-            const isActive = config.aspectRatio === qp.id;
-            return (
-              <button
-                key={`quick-${qp.id}`}
-                type="button"
-                onClick={() => handleSelect(qp.id)}
-                aria-pressed={isActive}
-                className="flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-xl transition-all duration-150"
-                style={{
-                  background: isActive ? 'rgba(13,148,136,0.15)' : 'var(--secondary)',
-                  border: isActive ? '1.5px solid var(--primary)' : '1px solid var(--border)',
-                }}
-              >
-                <span
-                  className="text-xs font-mono leading-none"
-                  style={{ color: isActive ? 'var(--primary)' : 'var(--muted-foreground)', fontSize: '10px' }}
-                >
-                  {qp.ratio}
-                </span>
-                <span
-                  className="text-xs font-semibold leading-none text-center"
-                  style={{ color: isActive ? 'var(--primary)' : 'var(--foreground)', fontSize: '11px' }}
-                >
-                  {qp.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {PRESET_GROUPS.map((group) => (
         <div key={group.group}>
-          <p className="panel-header mb-2">{group.group}</p>
-          <div className="flex flex-col gap-1.5">
-            {group.presets.map((preset) => (
-              <button
-                key={`preset-${preset.id}`}
-                type="button"
-                onClick={() => handleSelect(preset.id)}
-                className={`preset-card text-left p-2.5 flex items-center gap-3 transition-all duration-150 ${
-                  config.aspectRatio === preset.id ? 'preset-card-active' : ''
-                }`}
-                aria-pressed={config.aspectRatio === preset.id}
-              >
-                {/* Aspect ratio visual */}
-                <div
-                  className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg"
+          {/* Group header */}
+          <p
+            className="text-[10px] font-bold tracking-widest mb-2 px-0.5"
+            style={{ color: 'var(--muted-foreground)', letterSpacing: '0.12em' }}
+          >
+            {group.group}
+          </p>
+
+          {/* 2-column grid */}
+          <div className="grid grid-cols-2 gap-1.5">
+            {group.presets.map((preset) => {
+              const isActive = config.aspectRatio === preset.id;
+              return (
+                <button
+                  key={`preset-${preset.id}`}
+                  type="button"
+                  onClick={() => handleSelect(preset.id)}
+                  aria-pressed={isActive}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150"
                   style={{
-                    background: config.aspectRatio === preset.id
-                      ? 'rgba(124,58,237,0.25)'
-                      : 'var(--secondary)',
-                    color: config.aspectRatio === preset.id
-                      ? 'var(--secondary-foreground)'
-                      : 'var(--muted-foreground)',
-                    transition: 'all 150ms ease',
+                    background: isActive ? 'rgba(13,148,136,0.15)' : 'var(--secondary)',
+                    border: isActive ? '1.5px solid var(--primary)' : '1px solid var(--border)',
                   }}
                 >
-                  {preset.icon}
-                </div>
+                  {/* Icon */}
+                  <span
+                    className="shrink-0"
+                    style={{ color: isActive ? 'var(--primary)' : 'var(--muted-foreground)' }}
+                  >
+                    {icons[preset.id] ?? icons['custom']}
+                  </span>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
+                  {/* Text */}
+                  <div className="flex flex-col min-w-0">
+                    <span
+                      className="text-xs font-semibold leading-tight truncate"
+                      style={{ color: isActive ? 'var(--primary)' : 'var(--foreground)' }}
+                    >
                       {preset.label}
                     </span>
-                    {preset.ratio !== '—' && (
-                      <span
-                        className="text-xs font-mono px-1.5 py-0.5 rounded"
-                        style={{ background: 'var(--secondary)', color: 'var(--muted-foreground)' }}
-                      >
-                        {preset.ratio}
-                      </span>
-                    )}
+                    <span
+                      className="text-[10px] leading-tight truncate mt-0.5"
+                      style={{ color: 'var(--muted-foreground)' }}
+                    >
+                      {preset.sub}
+                    </span>
                   </div>
-                  <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--muted-foreground)' }}>
-                    {preset.platform || preset.description}
-                  </p>
-                </div>
 
-                {config.aspectRatio === preset.id && (
-                  <div
-                    className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
-                    style={{ background: 'var(--primary)' }}
-                  >
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M1.5 4L3.5 6L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                )}
-              </button>
-            ))}
+                  {/* Checkmark */}
+                  {isActive && (
+                    <div
+                      className="ml-auto w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
+                      style={{ background: 'var(--primary)' }}
+                    >
+                      <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                        <path d="M1.5 4L3.5 6L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
-
-          {/* Custom dimensions input — shown when custom is selected */}
-          {group.group === 'Custom' && config.aspectRatio === 'custom' && (
-            <div
-              className="mt-2 p-3 rounded-xl fade-in"
-              style={{ background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.25)' }}
-            >
-              <p className="text-xs font-semibold mb-2.5" style={{ color: 'var(--secondary-foreground)' }}>
-                Output Dimensions (px)
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="flex-1">
-                  <label className="panel-header block mb-1">Width</label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={8000}
-                    value={customW}
-                    onChange={(e) => handleCustomDimChange('width', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg text-sm font-mono numeric-tabular"
-                    style={{
-                      background: 'var(--secondary)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--foreground)',
-                      outline: 'none',
-                    }}
-                    placeholder="1080"
-                  />
-                </div>
-                <div className="mt-4 text-lg" style={{ color: 'var(--border)' }}>×</div>
-                <div className="flex-1">
-                  <label className="panel-header block mb-1">Height</label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={8000}
-                    value={customH}
-                    onChange={(e) => handleCustomDimChange('height', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg text-sm font-mono numeric-tabular"
-                    style={{
-                      background: 'var(--secondary)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--foreground)',
-                      outline: 'none',
-                    }}
-                    placeholder="1080"
-                  />
-                </div>
-              </div>
-              <p className="text-xs mt-2" style={{ color: 'var(--muted-foreground)' }}>
-                Canvas will be exactly {customW || '?'} × {customH || '?'} px. Image is fitted inside.
-              </p>
-            </div>
-          )}
         </div>
       ))}
+
+      {/* Custom size option */}
+      <div>
+        <p
+          className="text-[10px] font-bold tracking-widest mb-2 px-0.5"
+          style={{ color: 'var(--muted-foreground)', letterSpacing: '0.12em' }}
+        >
+          CUSTOM
+        </p>
+        <button
+          type="button"
+          onClick={() => handleSelect('custom')}
+          aria-pressed={config.aspectRatio === 'custom'}
+          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150"
+          style={{
+            background: config.aspectRatio === 'custom' ? 'rgba(13,148,136,0.15)' : 'var(--secondary)',
+            border: config.aspectRatio === 'custom' ? '1.5px solid var(--primary)' : '1px solid var(--border)',
+          }}
+        >
+          <span style={{ color: config.aspectRatio === 'custom' ? 'var(--primary)' : 'var(--muted-foreground)' }}>
+            {icons['custom']}
+          </span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs font-semibold leading-tight" style={{ color: config.aspectRatio === 'custom' ? 'var(--primary)' : 'var(--foreground)' }}>
+              Custom Size
+            </span>
+            <span className="text-[10px] leading-tight mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
+              Set exact pixel dimensions
+            </span>
+          </div>
+          {config.aspectRatio === 'custom' && (
+            <div className="ml-auto w-4 h-4 rounded-full shrink-0 flex items-center justify-center" style={{ background: 'var(--primary)' }}>
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                <path d="M1.5 4L3.5 6L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          )}
+        </button>
+
+        {config.aspectRatio === 'custom' && (
+          <div
+            className="mt-2 p-3 rounded-xl fade-in"
+            style={{ background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.25)' }}
+          >
+            <p className="text-xs font-semibold mb-2.5" style={{ color: 'var(--secondary-foreground)' }}>
+              Output Dimensions (px)
+            </p>
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <label className="panel-header block mb-1">Width</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={8000}
+                  value={customW}
+                  onChange={(e) => handleCustomDimChange('width', e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg text-sm font-mono numeric-tabular"
+                  style={{
+                    background: 'var(--secondary)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--foreground)',
+                    outline: 'none',
+                  }}
+                  placeholder="1080"
+                />
+              </div>
+              <div className="mt-4 text-lg" style={{ color: 'var(--border)' }}>×</div>
+              <div className="flex-1">
+                <label className="panel-header block mb-1">Height</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={8000}
+                  value={customH}
+                  onChange={(e) => handleCustomDimChange('height', e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg text-sm font-mono numeric-tabular"
+                  style={{
+                    background: 'var(--secondary)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--foreground)',
+                    outline: 'none',
+                  }}
+                  placeholder="1080"
+                />
+              </div>
+            </div>
+            <p className="text-xs mt-2" style={{ color: 'var(--muted-foreground)' }}>
+              Canvas will be exactly {customW || '?'} × {customH || '?'} px. Image is fitted inside.
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Blur background toggle */}
       {showBlurOption && (
@@ -390,7 +332,6 @@ export default function AspectRatioPanel({ config, onChange }: AspectRatioPanelP
             </button>
           </div>
 
-          {/* Preview illustration */}
           <div className="mt-3 grid grid-cols-2 gap-2">
             <button
               type="button"
@@ -432,7 +373,6 @@ export default function AspectRatioPanel({ config, onChange }: AspectRatioPanelP
       <div className="section-divider pt-4">
         <p className="text-sm font-semibold mb-3" style={{ color: 'var(--foreground)' }}>Mirror &amp; Flip</p>
         <div className="grid grid-cols-2 gap-2">
-          {/* Flip Horizontal */}
           <button
             type="button"
             onClick={() => onChange({ flipHorizontal: !(config.flipHorizontal ?? false) })}
@@ -451,7 +391,6 @@ export default function AspectRatioPanel({ config, onChange }: AspectRatioPanelP
             </span>
           </button>
 
-          {/* Flip Vertical */}
           <button
             type="button"
             onClick={() => onChange({ flipVertical: !(config.flipVertical ?? false) })}
