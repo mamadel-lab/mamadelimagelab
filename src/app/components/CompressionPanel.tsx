@@ -142,30 +142,7 @@ export default function CompressionPanel({ config, onChange }: CompressionPanelP
         </div>
       )}
 
-      {/* Output width */}
-      <div className="section-divider pt-5">
-        <p className="panel-header mb-3">Output Width</p>
-        <div className="grid grid-cols-2 gap-1.5">
-          {OUTPUT_WIDTHS.map((w) => (
-            <button
-              key={`width-${w.value}`}
-              type="button"
-              onClick={() => onChange({ outputWidth: w.value as ProcessingConfig['outputWidth'] })}
-              className={`preset-card text-left px-3 py-2 transition-all duration-150 ${
-                config.outputWidth === w.value ? 'preset-card-active' : ''
-              }`}
-              aria-pressed={config.outputWidth === w.value}
-            >
-              <span className="text-xs font-bold block" style={{ color: 'var(--foreground)' }}>
-                {w.label}
-              </span>
-              <span className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
-                {w.description}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Output width — removed (duplicated in Aspect Ratio tab) */}
 
       <div className="section-divider pt-5">
         {/* Quality slider */}
